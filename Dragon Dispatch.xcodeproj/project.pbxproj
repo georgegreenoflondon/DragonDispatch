@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E777E1F519D5FB1B000460B4 /* Dragon Dispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = E777E1F419D5FB1B000460B4 /* Dragon Dispatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E777E1FF19D5FB1B000460B4 /* Dragon_DispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E1FE19D5FB1B000460B4 /* Dragon_DispatchTests.swift */; };
+		E777E20919D5FBBD000460B4 /* DragonDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20819D5FBBD000460B4 /* DragonDispatch.swift */; };
+		E777E20B19D5FEFC000460B4 /* DragonDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E777E1EF19D5FB1B000460B4 /* Dragon Dispatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Dragon Dispatch.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E777E1EF19D5FB1B000460B4 /* DragonDispatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DragonDispatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E777E1F319D5FB1B000460B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E777E1F419D5FB1B000460B4 /* Dragon Dispatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dragon Dispatch.h"; sourceTree = "<group>"; };
 		E777E1FA19D5FB1B000460B4 /* Dragon DispatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dragon DispatchTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E777E1FD19D5FB1B000460B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E777E1FE19D5FB1B000460B4 /* Dragon_DispatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragon_DispatchTests.swift; sourceTree = "<group>"; };
+		E777E20819D5FBBD000460B4 /* DragonDispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragonDispatch.swift; sourceTree = "<group>"; };
+		E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragonDispatchQueue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +52,7 @@
 		E777E1F019D5FB1B000460B4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E777E1EF19D5FB1B000460B4 /* Dragon Dispatch.framework */,
+				E777E1EF19D5FB1B000460B4 /* DragonDispatch.framework */,
 				E777E1FA19D5FB1B000460B4 /* Dragon DispatchTests.xctest */,
 			);
 			name = Products;
@@ -59,7 +61,8 @@
 		E777E1F119D5FB1B000460B4 /* Dragon Dispatch */ = {
 			isa = PBXGroup;
 			children = (
-				E777E1F419D5FB1B000460B4 /* Dragon Dispatch.h */,
+				E777E20819D5FBBD000460B4 /* DragonDispatch.swift */,
+				E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */,
 				E777E1F219D5FB1B000460B4 /* Supporting Files */,
 			);
 			path = "Dragon Dispatch";
@@ -97,7 +100,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E777E1F519D5FB1B000460B4 /* Dragon Dispatch.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +121,7 @@
 			);
 			name = "Dragon Dispatch";
 			productName = "Dragon Dispatch";
-			productReference = E777E1EF19D5FB1B000460B4 /* Dragon Dispatch.framework */;
+			productReference = E777E1EF19D5FB1B000460B4 /* DragonDispatch.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E777E1F919D5FB1B000460B4 /* Dragon DispatchTests */ = {
@@ -196,6 +198,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E777E20B19D5FEFC000460B4 /* DragonDispatchQueue.swift in Sources */,
+				E777E20919D5FBBD000460B4 /* DragonDispatch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +302,7 @@
 		E777E20319D5FB1C000460B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -305,14 +310,16 @@
 				INFOPLIST_FILE = "Dragon Dispatch/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DragonDispatch;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		E777E20419D5FB1C000460B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -320,7 +327,7 @@
 				INFOPLIST_FILE = "Dragon Dispatch/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DragonDispatch;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
