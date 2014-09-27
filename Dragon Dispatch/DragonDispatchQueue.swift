@@ -29,6 +29,8 @@ class DRDispatchQueue {
 	
 	/// The underlying dispatch_queue_t object that is represented by this object
 	internal let _queue: dispatch_queue_t
+	/// A dictionary of values that can be set on the queue object to be retreived later.
+	private var _context: [String: AnyObject] = [:]
 	
 	// MARK: - Public Variables
 	
@@ -159,6 +161,18 @@ class DRDispatchQueue {
 		if _isPaused == true {
 			dispatch_resume(_queue)
 			_isPaused = false
+		}
+	}
+	
+	// MARK: - Subscript access to context variables
+	
+	/// Access the context information for the queue.
+	subscript(key: String) -> AnyObject? {
+		get {
+			return _context[key]
+		}
+		set(newValue) {
+			_context[key] = newValue
 		}
 	}
 	
