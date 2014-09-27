@@ -91,3 +91,11 @@ internal func dispatchTimeFromTimeInterval(timeInterval: DRTimeInterval?) -> dis
 	if timeInterval == nil { return DISPATCH_TIME_FOREVER }
 	return dispatch_time(DISPATCH_TIME_NOW, (Int64)(timeInterval! * DRTimeInterval(NSEC_PER_SEC)));
 }
+
+// MARK: - Dispatch Once
+
+typealias DRDispatchOnceToken = dispatch_once_t
+
+func DRDispatchOnce(block: DRDispatchBlock, inout token: DRDispatchOnceToken) {
+	dispatch_once(&token, block)
+}
