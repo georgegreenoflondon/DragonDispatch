@@ -19,6 +19,8 @@ private let _defaultPriorityQueue = DRDispatchQueue.globalQueueWithPriority(.Def
 private let _highPriorityQueue = DRDispatchQueue.globalQueueWithPriority(.High)
 private let _backgroundPriorityQueue = DRDispatchQueue.globalQueueWithPriority(.Background)
 
+private let _dragonConcurrentQueue = DRDispatchQueue(type: .Concurrent, label: "Dragon Dispatch Internal Queue")
+
 /// DRDispatchQueue
 /// This class represents a gcd dispatch queue on which blocks of code may be dispatched.
 class DRDispatchQueue {
@@ -113,8 +115,23 @@ class DRDispatchQueue {
 	/// This method will not return until all iterations of the block of code have been executed.
 	/// @param The number of times to execute the block.
 	/// @param block The block of code to be executed.
-	func dispatchIterate(iterations: UInt, block: DRDispatchIterationBlock) {
+	func dispatchIterateSync(iterations: UInt, block: DRDispatchIterationBlock) {
 		dispatch_apply(iterations, _queue, block)
+	}
+	
+	/// Dispatches a block of code the specified number of time onto the queue.
+	/// If the queue is serial the block will be executed the specified number of times one after the other,
+	/// if the queue is concurrent they may all be executed at the same time, therefore the code must be
+	/// re-entrant safe. (It must be ok for it to be executed multiple times at the same time!)
+	/// The block will be passed an index parameter specifying which iteration it is. 0..<iterations
+	/// This method will return immediately, and the block will be executed the specified number of times
+	/// at some point in the future.
+	/// @param The number of times to execute the block.
+	/// @param block The block of code to be executed.
+	func dispatchIterateAsync(iterations: UInt, block: DRDispatchIterationBlock) {
+		_dragonConcurrentQueue.dispatchAsync { () -> Void in
+			self.dispatchIterateSync(iterations, block)
+		}
 	}
 	
 }
