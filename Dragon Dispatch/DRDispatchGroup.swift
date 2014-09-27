@@ -20,7 +20,8 @@ class DRDispatchGroup {
 	// MARK: - Public Variables
 	
 	private var _defaultQueue: DRDispatchQueue
-	///
+	/// The default queue to which blocks will be dispatched if another queue is not explicitly specified in a call
+	/// to addBlock(block, queue).
 	var defaultQueue: DRDispatchQueue {
 		get {
 			return _defaultQueue
