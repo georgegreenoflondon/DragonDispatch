@@ -10,6 +10,9 @@
 		E777E1FF19D5FB1B000460B4 /* Dragon_DispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E1FE19D5FB1B000460B4 /* Dragon_DispatchTests.swift */; };
 		E777E20919D5FBBD000460B4 /* DragonDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20819D5FBBD000460B4 /* DragonDispatch.swift */; };
 		E777E20B19D5FEFC000460B4 /* DragonDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */; };
+		E777E20D19D6DC75000460B4 /* DRDispatchQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20C19D6DC75000460B4 /* DRDispatchQueueTests.swift */; };
+		E777E20E19D6DCBC000460B4 /* DragonDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */; };
+		E777E20F19D6DD14000460B4 /* DragonDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20819D5FBBD000460B4 /* DragonDispatch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +23,7 @@
 		E777E1FE19D5FB1B000460B4 /* Dragon_DispatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragon_DispatchTests.swift; sourceTree = "<group>"; };
 		E777E20819D5FBBD000460B4 /* DragonDispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragonDispatch.swift; sourceTree = "<group>"; };
 		E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragonDispatchQueue.swift; sourceTree = "<group>"; };
+		E777E20C19D6DC75000460B4 /* DRDispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchQueueTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				E777E1FE19D5FB1B000460B4 /* Dragon_DispatchTests.swift */,
+				E777E20C19D6DC75000460B4 /* DRDispatchQueueTests.swift */,
 				E777E1FC19D5FB1B000460B4 /* Supporting Files */,
 			);
 			path = "Dragon DispatchTests";
@@ -208,6 +213,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E777E1FF19D5FB1B000460B4 /* Dragon_DispatchTests.swift in Sources */,
+				E777E20D19D6DC75000460B4 /* DRDispatchQueueTests.swift in Sources */,
+				E777E20F19D6DD14000460B4 /* DragonDispatch.swift in Sources */,
+				E777E20E19D6DCBC000460B4 /* DragonDispatchQueue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -96,4 +96,12 @@ class DRDispatchQueue {
 		dispatch_async(_queue, block)
 	}
 	
+	/// Dispatches a block of code to the queue after a given time interval.
+	/// @param timeInterval The time, in seconds, after which to dispatch the block.
+	/// @param block The block of code to be dispatched.
+	func dispatchAfter(timeInterval: DRTimeInterval, block: DRDispatchBlock) {
+		let time = dispatch_time(DISPATCH_TIME_NOW, (Int64)(timeInterval * DRTimeInterval(NSEC_PER_SEC)));
+		dispatch_after(time, _queue, block)
+	}
+	
 }
