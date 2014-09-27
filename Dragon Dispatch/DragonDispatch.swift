@@ -9,6 +9,7 @@
 import Foundation
 
 typealias DRDispatchBlock = (() -> Void)
+typealias DRDispatchIterationBlock = ((index: UInt) -> Void)
 typealias DRTimeInterval = NSTimeInterval
 
 /// The priority of a global concurrent queue.

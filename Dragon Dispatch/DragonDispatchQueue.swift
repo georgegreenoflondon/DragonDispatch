@@ -86,12 +86,14 @@ class DRDispatchQueue {
 	}
 	
 	/// Executes the passed in block on this queue. Will not return until the block has been executed.
+	/// @param block The block of code to be synchronously dispatched.
 	func dispatchSync(block: DRDispatchBlock) {
 		dispatch_sync(_queue, block)
 	}
 	
 	/// Executes the passed in block on this queue. Will return immediatly, and the block will be executed
 	/// at some point in the future.
+	/// @param block The block of code to be asynchronously dispatched.
 	func dispatchAsync(block: DRDispatchBlock) {
 		dispatch_async(_queue, block)
 	}
@@ -102,6 +104,17 @@ class DRDispatchQueue {
 	func dispatchAfter(timeInterval: DRTimeInterval, block: DRDispatchBlock) {
 		let time = dispatch_time(DISPATCH_TIME_NOW, (Int64)(timeInterval * DRTimeInterval(NSEC_PER_SEC)));
 		dispatch_after(time, _queue, block)
+	}
+	
+	/// Dispatches a block of code the specified number of time onto the queue.
+	/// If the queue is serial the block will be executed the specified number of times one after the other,
+	/// if the queue is concurrent they may all be executed at the same time.
+	/// The block will be passed an index parameter specifying which iteration it is. 0..<iterations
+	/// This method will not return until all iterations of the block of code have been executed.
+	/// @param The number of times to execute the block.
+	/// @param block The block of code to be executed.
+	func dispatchIterate(iterations: UInt, block: DRDispatchIterationBlock) {
+		dispatch_apply(iterations, _queue, block)
 	}
 	
 }
