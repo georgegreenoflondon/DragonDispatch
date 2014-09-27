@@ -15,6 +15,8 @@
 		E777E20F19D6DD14000460B4 /* DragonDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20819D5FBBD000460B4 /* DragonDispatch.swift */; };
 		E777E21119D6F56D000460B4 /* DRDispatchSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E21019D6F56D000460B4 /* DRDispatchSemaphore.swift */; };
 		E777E21219D6F56D000460B4 /* DRDispatchSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E21019D6F56D000460B4 /* DRDispatchSemaphore.swift */; };
+		E777E21419D6FD87000460B4 /* DRDispatchProtectedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E21319D6FD87000460B4 /* DRDispatchProtectedObject.swift */; };
+		E777E21519D6FD87000460B4 /* DRDispatchProtectedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E21319D6FD87000460B4 /* DRDispatchProtectedObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,7 @@
 		E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragonDispatchQueue.swift; sourceTree = "<group>"; };
 		E777E20C19D6DC75000460B4 /* DRDispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchQueueTests.swift; sourceTree = "<group>"; };
 		E777E21019D6F56D000460B4 /* DRDispatchSemaphore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchSemaphore.swift; sourceTree = "<group>"; };
+		E777E21319D6FD87000460B4 /* DRDispatchProtectedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchProtectedObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,7 @@
 				E777E20819D5FBBD000460B4 /* DragonDispatch.swift */,
 				E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */,
 				E777E21019D6F56D000460B4 /* DRDispatchSemaphore.swift */,
+				E777E21319D6FD87000460B4 /* DRDispatchProtectedObject.swift */,
 				E777E1F219D5FB1B000460B4 /* Supporting Files */,
 			);
 			path = "Dragon Dispatch";
@@ -208,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E777E21119D6F56D000460B4 /* DRDispatchSemaphore.swift in Sources */,
+				E777E21419D6FD87000460B4 /* DRDispatchProtectedObject.swift in Sources */,
 				E777E20B19D5FEFC000460B4 /* DragonDispatchQueue.swift in Sources */,
 				E777E20919D5FBBD000460B4 /* DragonDispatch.swift in Sources */,
 			);
@@ -222,6 +227,7 @@
 				E777E20D19D6DC75000460B4 /* DRDispatchQueueTests.swift in Sources */,
 				E777E20F19D6DD14000460B4 /* DragonDispatch.swift in Sources */,
 				E777E20E19D6DCBC000460B4 /* DragonDispatchQueue.swift in Sources */,
+				E777E21519D6FD87000460B4 /* DRDispatchProtectedObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
