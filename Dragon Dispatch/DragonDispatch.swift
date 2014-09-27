@@ -71,3 +71,11 @@ func DRDispatchSync(block: DRDispatchBlock, priority: DRQueuePriority = .Default
 	queue.dispatchSync(block)
 	return queue
 }
+
+
+
+// MARK: - Internal Helpers
+
+internal func dispatchTimeFromTimeInterval(timeInterval: DRTimeInterval) -> dispatch_time_t	{
+	return dispatch_time(DISPATCH_TIME_NOW, (Int64)(timeInterval * DRTimeInterval(NSEC_PER_SEC)));
+}
