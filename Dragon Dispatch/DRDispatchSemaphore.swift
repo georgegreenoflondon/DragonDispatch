@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// This class represents a counting semaphore object.
 class DRDispatchSemaphore {
 	
 	// MARK: - Private Variables
@@ -45,12 +46,33 @@ class DRDispatchSemaphore {
 	/// @param block The block of code to be safely executed.
 	/// @param timeout An optional parameter used to specify how long the code should wait before deciding not to execute.
 	/// Defaults to nil, to specify to wait forever.
-	func execute(block: DRDispatchBlock, timeout: DRTimeInterval? = nil) {
-		let waitTime = (timeout == nil) ? DISPATCH_TIME_FOREVER : dispatchTimeFromTimeInterval(timeout!)
+	/// @return true if the block of code was executed, false if the specified timeout was reached before the block
+	/// was executed.
+	func execute(block: DRDispatchBlock, timeout: DRTimeInterval? = nil) -> Bool {
+		let waitTime = dispatchTimeFromTimeInterval(timeout)
 		if dispatch_semaphore_wait(_semaphore, waitTime) == 0 {
 			block()
 			dispatch_semaphore_signal(_semaphore)
+			return true
 		}
+		return false
+	}
+	
+	/// Decrements the internal count of the semaphore. If the semaphore is now less than 0 this method will not return until the value once more reaches 0.
+	/// @param timeout An optional parameter to specify how long to wait for the semaphore to reach 0.
+	/// @return true if the semaphore reaches 0 before the timeout, false if the timeout is reached before the 
+	/// semaphore reaches 0. If this method returns false, protected code should NOT be executed.
+	/// @warning This method is provided for API completness, its use is NOT reccommended. Instead use the execute(block, timeout) method to safely execute a block of code.
+	func wait(timeout: DRTimeInterval? = nil) -> Bool {
+		let waitTime = dispatchTimeFromTimeInterval(timeout)
+		return dispatch_semaphore_wait(_semaphore, waitTime) == 0
+	}
+	
+	/// Increments the internal count of the semaphore. Calling this will allow the next entrant currently waiting at a wait() call to continue.
+	/// @return true if a another waiting entrant was allowed to continue as a result of this call, otherwise false
+	/// @warning This method is provided for API completness, its use is NOT reccommended. Instead use the execute(block, timeout) method to safely execute a block of code.
+	func signal() -> Bool {
+		return dispatch_semaphore_signal(_semaphore) == 0
 	}
 	
 }
