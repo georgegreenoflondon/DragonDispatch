@@ -28,7 +28,7 @@ class DRDispatchQueue {
 	// MARK: - Private Variables
 	
 	/// The underlying dispatch_queue_t object that is represented by this object
-	private let _queue: dispatch_queue_t
+	internal let _queue: dispatch_queue_t
 	
 	// MARK: - Public Variables
 	
