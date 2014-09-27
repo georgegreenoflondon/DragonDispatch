@@ -8,6 +8,11 @@
 
 import Foundation
 
+/// Adds the block on the right to the group on the left, for dispatch to the groups default queue.
+func += (left: DRDispatchGroup, right: DRDispatchBlock) {
+	left.addBlock(right)
+}
+
 /// Dispatch groups are used to watch for completion of a number of blocks that have been dispatched for
 /// execution on a dispatch queue.
 class DRDispatchGroup {
