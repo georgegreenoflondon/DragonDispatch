@@ -20,6 +20,12 @@ class DRDispatchGroup {
 	// MARK: - Public Variables
 	
 	private var _defaultQueue: DRDispatchQueue
+	///
+	var defaultQueue: DRDispatchQueue {
+		get {
+			return _defaultQueue
+		}
+	}
 	
 	// MARK: - Object Lifecycle Methods
 	
