@@ -72,7 +72,18 @@ func DRDispatchSync(block: DRDispatchBlock, priority: DRQueuePriority = .Default
 	return queue
 }
 
-
+/// Dispatched a block of code to be executed on the main queue.
+/// @param block The block of code to be executed.
+/// @param synchronously If true this method will not return until the block of code has been executed. If false this method
+/// will return immediately and block will be executed on the main queue at some point in the future. Defaults to true.
+/// @warning If you call this method from the main queue with synchronously == true, it will block the main queue.
+func DRDispatchMain(block: DRDispatchBlock, synchronously: Bool = true) {
+	if synchronously {
+		DRDispatchQueue.mainQueue().dispatchSync(block)
+	} else {
+		DRDispatchQueue.mainQueue().dispatchAsync(block)
+	}
+}
 
 // MARK: - Internal Helpers
 
