@@ -20,7 +20,7 @@ private let _highPriorityQueue = DRDispatchQueue.globalQueueWithPriority(.High)
 private let _backgroundPriorityQueue = DRDispatchQueue.globalQueueWithPriority(.Background)
 
 /// DRDispatchQueue
-/// This class represents a queue on which blocks of code may be dispatched.
+/// This class represents a gcd dispatch queue on which blocks of code may be dispatched.
 class DRDispatchQueue {
 	
 	// MARK: - Private Variables
@@ -29,7 +29,11 @@ class DRDispatchQueue {
 	private let _queue: dispatch_queue_t
 	
 	// MARK: - Public Variables
-	
+	var label: String? {
+		get {
+			return String.stringWithUTF8String(dispatch_queue_get_label(_queue))
+		}
+	}
 	
 	/// The priority of the queue if this object represent a global queue. Otherwise nil.
 	let priority: DRQueuePriority?
@@ -61,8 +65,11 @@ class DRDispatchQueue {
 	// MARK: - Object Lifecycle Methods
 	
 	/// Create a queue object that represents a dispatch queue with the specitied type.
-	init(type: DRQueueType) {
-		_queue = dispatch_queue_create("Dragon Dispatch Queue", type.toConst())
+	/// This will create a new underlying dispatch queue.
+	/// @param type The type of queue to be created.
+	/// @param label A string used to identify the queue.
+	init(type: DRQueueType, label: String = "Dragon Dispatch Queue") {
+		_queue = dispatch_queue_create(label, type.toConst())
 		self.type = type
 	}
 	
