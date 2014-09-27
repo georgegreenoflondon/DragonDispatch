@@ -31,9 +31,19 @@ class DRDispatchQueue {
 	private let _queue: dispatch_queue_t
 	
 	// MARK: - Public Variables
+	
+	/// The label that was attached to the queue when it was created, or nil if no label was specified.
 	var label: String? {
 		get {
 			return String.stringWithUTF8String(dispatch_queue_get_label(_queue))
+		}
+	}
+	
+	private var _isPaused: Bool = false
+	/// Used to check if the queue is currently paused.
+	var isPaused: Bool {
+		get {
+			return _isPaused
 		}
 	}
 	
@@ -131,6 +141,24 @@ class DRDispatchQueue {
 	func dispatchIterateAsync(iterations: UInt, block: DRDispatchIterationBlock) {
 		_dragonConcurrentQueue.dispatchAsync { () -> Void in
 			self.dispatchIterateSync(iterations, block)
+		}
+	}
+	
+	/// Temporarily stop the queue from starting execution of any new blocks.
+	/// Any blocks that have been started will be allowed to finish.
+	func pause() {
+		if _isPaused == false {
+			dispatch_suspend(_queue)
+			_isPaused = true
+		}
+	}
+	
+	/// Resume a queue that has been paused via the pause() method. The queue will once again be allowed to 
+	/// begin execution of blocks.
+	func resume() {
+		if _isPaused == true {
+			dispatch_resume(_queue)
+			_isPaused = false
 		}
 	}
 	
