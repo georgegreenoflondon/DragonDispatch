@@ -17,11 +17,19 @@ class DRDispatchGroup {
 	/// The underlying dispatch group object.
 	private let _group: dispatch_group_t = dispatch_group_create()
 	
+	// MARK: - Public Variables
+	
+	private var _defaultQueue: DRDispatchQueue
+	
 	// MARK: - Object Lifecycle Methods
 	
-	/// Create a new dispatch group
-	init() {
-		
+	/// Create a new dispatch group.
+	/// @param defaultQueue An optional parameter to specify the queue that blocks submitted to this group will be
+	/// dispatched to, if not explicitly specified in the call to addBlock(block, queue). Defaults to the default priority
+	/// global concurrent queue.
+	init(defaultQueue: DRDispatchQueue = DRDispatchQueue.globalQueueWithPriority(.Default)) {
+		// Keep hold of the default queue
+		_defaultQueue = defaultQueue
 	}
 	
 	/// MARK: - Public Action Methods
@@ -29,8 +37,12 @@ class DRDispatchGroup {
 	/// Adds a block to the group. The block will be executed asynchronously on the specified queue.
 	/// @param block The block of code to be associated with the group.
 	/// @param queue The dispatch queue on which the block should be asynchronously dispatched.
-	func addBlock(block: DRDispatchBlock, queue: DRDispatchQueue) {
-		dispatch_group_async(_group, queue._queue, block)
+	func addBlock(block: DRDispatchBlock, queue: DRDispatchQueue? = nil) {
+		if let dispatchQueue = queue {
+			dispatch_group_async(_group, dispatchQueue._queue, block)
+		} else {
+			dispatch_group_async(_group, _defaultQueue._queue, block)
+		}
 	}
 	
 	/// Call this method to synchronously wait for all of the blocks that have been submitted to this group to complete.
@@ -53,8 +65,12 @@ class DRDispatchGroup {
 	/// @discussion notifyBlock will be called after block submitted to the group, via addBlock(block, queue), prior to
 	/// calling this method have completed. You may add more blocks after this call but they may not have completed
 	/// when this notify block is called. This method can be called again if more blocks are submitted to the group.
-	func notify(notifyBlock: DRDispatchBlock, queue: DRDispatchQueue) {
-		dispatch_group_notify(_group, queue._queue, notifyBlock)
+	func notify(notifyBlock: DRDispatchBlock, queue: DRDispatchQueue? = nil) {
+		if let dispatchQueue = queue {
+			dispatch_group_notify(_group, dispatchQueue._queue, notifyBlock)
+		} else {
+			dispatch_group_notify(_group, _defaultQueue._queue, notifyBlock)
+		}
 	}
 	
 }
