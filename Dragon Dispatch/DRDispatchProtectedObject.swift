@@ -24,7 +24,7 @@ class DRDispatchProtectedObject<T> {
 	/// @param object The object to be protected.
 	/// @param maxConcurrentAccessors Optional parameter used to specify the maximum number of times the protected object can
 	/// be accessed concurrently.
-	init(object: T, maxConcurrentAccessors: Int = 0) {
+	init(object: T, maxConcurrentAccessors: Int = 1) {
 		// Create a semaphore to protect the object
 		_semaphore = DRDispatchSemaphore(maxEntrants: maxConcurrentAccessors)
 		// Keep hold of the object to protect
