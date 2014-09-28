@@ -108,8 +108,25 @@ class DRDispatchQueue {
 	/// Executes the passed in block on this queue. Will return immediatly, and the block will be executed
 	/// at some point in the future.
 	/// @param block The block of code to be asynchronously dispatched.
-	func dispatchAsync(block: DRDispatchBlock) {
-		dispatch_async(_queue, block)
+	private lazy var validIdentifiers: DRCountedSet<String> = DRCountedSet()
+	func dispatchAsync(block: DRDispatchBlock, identifier: String? = nil) {
+		if let blockIdentifier = identifier {
+			validIdentifiers.incrementValue(blockIdentifier)
+			dispatch_async(_queue, { () -> Void in
+				if self.validIdentifiers.countForValue(blockIdentifier) > 0 {
+					block()
+					self.validIdentifiers.decrementValue(blockIdentifier)
+				}
+			})
+		} else {
+			dispatch_async(_queue, block)
+		}
+	}
+	
+	/// Prevent any blocks that were dispatched to this queue, via dispatchAsync(block, identifier), with a specific identifier from being executed.
+	/// @param identifier The identifier for blocks to be prevented from being called.
+	func cancelDispatchWithIdentifier(identifier: String) {
+		validIdentifiers.zeroValue(identifier)
 	}
 	
 	/// Dispatches a block of code to the queue after a given time interval.
