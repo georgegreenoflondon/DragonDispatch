@@ -14,10 +14,10 @@ func == (left: DRDispatchQueue, right: DRDispatchQueue) -> Bool {
 }
 
 private let _mainQueue = DRDispatchQueue(queue: dispatch_get_main_queue())
-private let _lowPriorityQueue = DRDispatchQueue.globalQueueWithPriority(.Low)
-private let _defaultPriorityQueue = DRDispatchQueue.globalQueueWithPriority(.Default)
-private let _highPriorityQueue = DRDispatchQueue.globalQueueWithPriority(.High)
-private let _backgroundPriorityQueue = DRDispatchQueue.globalQueueWithPriority(.Background)
+private let _lowPriorityQueue = DRDispatchQueue(queue: dispatch_get_global_queue(DRQueuePriority.Low.toConst(), 0))
+private let _defaultPriorityQueue = DRDispatchQueue(queue: dispatch_get_global_queue(DRQueuePriority.Default.toConst(), 0))
+private let _highPriorityQueue = DRDispatchQueue(queue: dispatch_get_global_queue(DRQueuePriority.High.toConst(), 0))
+private let _backgroundPriorityQueue = DRDispatchQueue(queue: dispatch_get_global_queue(DRQueuePriority.Background.toConst(), 0))
 
 private let _dragonConcurrentQueue = DRDispatchQueue(type: .Concurrent, label: "Dragon Dispatch Internal Queue")
 
