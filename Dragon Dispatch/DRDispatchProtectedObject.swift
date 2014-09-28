@@ -65,13 +65,9 @@ class DRDispatchProtectedObject<T> {
 	/// @discussion In the event of a true return value, the block will have been executed with safe access to the protected
 	/// object. If the method returned false, the block was not executed.
 	func with(block: (inout protectedObject: T) -> Void, timeout: DRTimeInterval? = nil) -> Bool {
-		var po = requestAccess(timeout: timeout)
-		if po != nil {
-			block(protectedObject: &_protectedObject)
-			done()
-			return true
-		}
-		return false
+		return _semaphore.execute({ () -> Void in
+			block(protectedObject: &self._protectedObject)
+		}, timeout: timeout)
 	}
 	
 }
