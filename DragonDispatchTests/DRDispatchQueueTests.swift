@@ -235,7 +235,6 @@ class DRDispatchQueueTests : XCTestCase {
 			}
 		}
 		current.with { (inout protectedObject: UInt) -> Void in
-			println("*** \(protectedObject)")
 			XCTAssert(protectedObject == 10, "All iterations should now be complete.")
 		}
 	}
@@ -267,6 +266,31 @@ class DRDispatchQueueTests : XCTestCase {
 			}
 		}
 		waitForExpectationsWithTimeout(1, handler: nil)
+	}
+	
+	/// Test pausing and resuming a queue
+	let pauseQueue = DRDispatchQueue(type: .Concurrent)
+	var pauseBool = false
+	var pauseExpectation: XCTestExpectation?
+	func testPause() {
+		pauseExpectation = expectationWithDescription("Pause expectation.")
+		XCTAssert(pauseQueue.isPaused == false, "The queue should start off running.")
+		pauseQueue.dispatchAfter(0.1) {
+			self.pauseBool = true
+			self.pauseExpectation!.fulfill()
+		}
+		pauseQueue.pause()
+		XCTAssert(pauseQueue.isPaused == true, "Queue should be paused after a call to pause().")
+		XCTAssert(pauseBool == false, "Block should not have run yet as the queue is paused.")
+		NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "pauseTimerFired", userInfo: nil, repeats: false)
+		waitForExpectationsWithTimeout(1.1, handler: nil)
+	}
+	
+	func pauseTimerFired() {
+		XCTAssert(pauseQueue.isPaused == true, "The queue should still be paused.")
+		XCTAssert(pauseBool == false, "The block still should not have been executed.")
+		pauseQueue.resume()
+		XCTAssert(pauseQueue.isPaused == false, "The queue should be running after a call to resume().")
 	}
 
 }
