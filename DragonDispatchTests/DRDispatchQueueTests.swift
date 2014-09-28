@@ -124,4 +124,41 @@ class DRDispatchQueueTests : XCTestCase {
 		waitForExpectationsWithTimeout(1, handler: nil)
 	}
 	
+	func testAsyncConLots() {
+		let queue = DRDispatchQueue(type: .Concurrent)
+		var expectations = [XCTestExpectation]()
+		for i in 0...10 {
+			expectations.append(expectationWithDescription("expectation: \(i)"))
+			var canComplete = false
+			queue.dispatchAsync {
+				if canComplete == true {
+					expectations.last!.fulfill()
+				}
+			}
+			canComplete = true
+		}
+		waitForExpectationsWithTimeout(1, handler: nil)
+	}
+	
+	/// Test asynchronous serial
+	
+	func testAsyncSerial() {
+		let queue = DRDispatchQueue(type: .Serial)
+		var canComplete: Bool = false
+		let expectation = expectationWithDescription("Serial queue expectation.")
+		var lastCompleted: Int = -1
+		for i: Int in 0...10 {
+			queue.dispatchAsync {
+				XCTAssert(lastCompleted == i - 1, "Should be running in order.")
+				lastCompleted = i
+			}
+		}
+		queue.dispatchAsync {
+			if lastCompleted == 10 && canComplete == true {
+				expectation.fulfill()
+			}
+		}
+		canComplete = true
+		waitForExpectationsWithTimeout(1, handler: nil)
+	}
 }
