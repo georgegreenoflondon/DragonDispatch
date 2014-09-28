@@ -161,4 +161,14 @@ class DRDispatchQueueTests : XCTestCase {
 		canComplete = true
 		waitForExpectationsWithTimeout(1, handler: nil)
 	}
+	
+	/// Test serial
+	func testSync() {
+		let queue = DRDispatchQueue(type: .Serial)
+		var canComplete = false
+		queue.dispatchSync { () -> Void in
+			canComplete = true
+		}
+		XCTAssert(canComplete == true, "dispatchSync(block) should not return until the block has been executed.")
+	}
 }
