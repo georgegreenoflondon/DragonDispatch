@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DRSet<T: Equatable>: SequenceType {
+internal class DRSet<T: Equatable>: SequenceType {
 	private var _values: [T] = []
 	
 	/// Add a value to the set, if it is not already there.
@@ -58,7 +58,7 @@ class DRSet<T: Equatable>: SequenceType {
 	}
 }
 
-class DRCountedSet<T: Hashable>: SequenceType {
+internal class DRCountedSet<T: Hashable>: SequenceType {
 	private var _countsForValues: [T: Int] = [:]
 	
 	/// Increment the count for the specified value.
