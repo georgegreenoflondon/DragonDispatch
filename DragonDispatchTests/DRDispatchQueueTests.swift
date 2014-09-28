@@ -213,4 +213,60 @@ class DRDispatchQueueTests : XCTestCase {
 		queue.cancelDispatchWithIdentifier("cancelMe")
 		waitForExpectationsWithTimeout(1, handler: nil)
 	}
+	
+	/// Test serial iteration
+	func testSerialIteration() {
+		let queue = DRDispatchQueue(type: .Serial)
+		var current: UInt = 0
+		queue.dispatchIterateSync(10) { (index: UInt) -> Void in
+			XCTAssert(current == index, "Iterations should be dispatched in order.")
+			current += 1
+		}
+		XCTAssert(current == 10, "All iterations should now be complete.")
+	}
+	
+	/// Test concurrent iteration
+	func testConcurrentIteration() {
+		let queue = DRDispatchQueue(type: .Concurrent)
+		var current: DRDispatchProtectedObject<UInt> = DRDispatchProtectedObject<UInt>(object: 0)
+		queue.dispatchIterateSync(10) { (index: UInt) -> Void in
+			var complete = current.with { (inout protectedObject: UInt) -> Void in
+				protectedObject += 1
+			}
+		}
+		current.with { (inout protectedObject: UInt) -> Void in
+			println("*** \(protectedObject)")
+			XCTAssert(protectedObject == 10, "All iterations should now be complete.")
+		}
+	}
+	
+	/// Test serial asynchronous iteration
+	func testSerialAsyncIteration() {
+		let queue = DRDispatchQueue(type: .Serial)
+		var current: UInt = 0
+		let expectation = expectationWithDescription("Async iteration expectation.")
+		queue.dispatchIterateAsync(10) { (index: UInt) -> Void in
+			XCTAssert(current == index, "Iterations should be dispatched in order.")
+			current += 1
+			if current == 10 {
+				expectation.fulfill()
+			}
+		}
+		waitForExpectationsWithTimeout(1, handler: nil)
+	}
+
+	/// Test concurrent asynchronous iteration
+	func testConcurrentAsyncIteration() {
+		let queue = DRDispatchQueue(type: .Serial)
+		var current: UInt = 0
+		let expectation = expectationWithDescription("Async iteration expectation.")
+		queue.dispatchIterateAsync(10) { (index: UInt) -> Void in
+			current += 1
+			if current == 10 {
+				expectation.fulfill()
+			}
+		}
+		waitForExpectationsWithTimeout(1, handler: nil)
+	}
+
 }
