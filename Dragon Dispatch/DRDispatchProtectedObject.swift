@@ -42,6 +42,7 @@ class DRDispatchProtectedObject<T> {
 	/// @discussion Once you are done with the object, you must call done() so that any other code that wants access
 	/// may be allowed access. If you fail to call done() the object may become permanently unavailable for use.
 	/// If this method returns nil, there is no need to call done.
+	/// Use of the with(block, timeout) method is reccommended for access to protected objects.
 	func requestAccess(timeout: DRTimeInterval? = nil) -> T? {
 		if _semaphore.wait(timeout: timeout) { return _protectedObject }
 		else { return nil }
@@ -50,6 +51,7 @@ class DRDispatchProtectedObject<T> {
 	/// Indicate that you no longer need access to the protected object. After calling this, you should no longer make
 	/// any use of the protected object that was returned by a previous call to requestAccess(timeout).
 	/// This method should not be called if the respective call to requestAccess(timeout) returned nil.
+	/// Use of the with(block, timeout) method is reccommended for access to protected objects.
 	func done() {
 		_semaphore.signal()
 	}
