@@ -196,4 +196,21 @@ class DRDispatchQueueTests : XCTestCase {
 	func timerFired() {
 		XCTAssert(testDispatchAfterCanComplete == false, "The block should not have been executed yet.")
 	}
+	
+	/// Test cancelling an asynchronously dispatched block
+	func testCancel() {
+		let queue = DRDispatchQueue(type: .Serial)
+		let expectation = expectationWithDescription("First block should never have been called.")
+		var canComplete = true
+		queue.dispatchAsync({ () -> Void in
+			canComplete = false
+		}, identifier: "cancelMe")
+		queue.dispatch { () -> Void in
+			if canComplete == true {
+				expectation.fulfill()
+			}
+		}
+		queue.cancelDispatchWithIdentifier("cancelMe")
+		waitForExpectationsWithTimeout(1, handler: nil)
+	}
 }
