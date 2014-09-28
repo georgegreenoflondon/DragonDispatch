@@ -44,7 +44,7 @@ enum DRQueueType {
 	/// but they will not necessarily finish in the same order.
 	case Concurrent
 	
-	func toConst() -> dispatch_queue_attr_t {
+	func toConst() -> dispatch_queue_attr_t! {
 		switch self {
 			case .Serial:
 				return DISPATCH_QUEUE_SERIAL

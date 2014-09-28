@@ -13,11 +13,15 @@ func == (left: DRDispatchQueue, right: DRDispatchQueue) -> Bool {
 	return left._queue.isEqual(right._queue)
 }
 
-private let _mainQueue = DRDispatchQueue(queue: dispatch_get_main_queue())
-private let _lowPriorityQueue = DRDispatchQueue(queue: dispatch_get_global_queue(DRQueuePriority.Low.toConst(), 0))
-private let _defaultPriorityQueue = DRDispatchQueue(queue: dispatch_get_global_queue(DRQueuePriority.Default.toConst(), 0))
-private let _highPriorityQueue = DRDispatchQueue(queue: dispatch_get_global_queue(DRQueuePriority.High.toConst(), 0))
-private let _backgroundPriorityQueue = DRDispatchQueue(queue: dispatch_get_global_queue(DRQueuePriority.Background.toConst(), 0))
+func != (left: DRDispatchQueue, right: DRDispatchQueue) -> Bool {
+	return !(left == right)
+}
+
+private let _mainQueue = DRDispatchQueue()
+private let _lowPriorityQueue = DRDispatchQueue(priority: .Low)
+private let _defaultPriorityQueue = DRDispatchQueue(priority: .Default)
+private let _highPriorityQueue = DRDispatchQueue(priority: .High)
+private let _backgroundPriorityQueue = DRDispatchQueue(priority: .Background)
 
 private let _dragonConcurrentQueue = DRDispatchQueue(type: .Concurrent, label: "Dragon Dispatch Internal Queue")
 
@@ -77,6 +81,20 @@ class DRDispatchQueue {
 	
 	
 	// MARK: - Object Lifecycle Methods
+	
+	/// Creates a global queue object with the specified priority.
+	/// @param priority The priority of the queue to create.
+	private init(priority: DRQueuePriority) {
+		_queue = dispatch_get_global_queue(priority.toConst(), 0)
+		self.priority = priority
+		self.type = .Concurrent
+	}
+	
+	/// Create a queue to represent the main queue
+	private init() {
+		_queue = dispatch_get_main_queue()
+		type = .Serial
+	}
 	
 	/// Create a queue object that represents a dispatch queue with the specitied type.
 	/// This will create a new underlying dispatch queue.
