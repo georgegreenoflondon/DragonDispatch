@@ -16,7 +16,7 @@ class DRDispatchProtectedObject<T> {
 	// MARK: - Private Variables
 	
 	private let _semaphore: DRDispatchSemaphore
-	private let _protectedObject: T
+	private var _protectedObject: T
 	
 	// MARK: - Object Lifecycle Methods
 	
@@ -64,9 +64,10 @@ class DRDispatchProtectedObject<T> {
 	/// the object became safe to use.
 	/// @discussion In the event of a true return value, the block will have been executed with safe access to the protected
 	/// object. If the method returned false, the block was not executed.
-	func with(block: (protectedObject: T) -> Void, timeout: DRTimeInterval? = nil) -> Bool {
-		if let po = requestAccess(timeout: timeout) {
-			block(protectedObject: po)
+	func with(block: (inout protectedObject: T) -> Void, timeout: DRTimeInterval? = nil) -> Bool {
+		var po = requestAccess(timeout: timeout)
+		if po != nil {
+			block(protectedObject: &_protectedObject)
 			done()
 			return true
 		}

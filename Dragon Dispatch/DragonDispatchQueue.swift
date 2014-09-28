@@ -126,14 +126,14 @@ class DRDispatchQueue {
 	/// Executes the passed in block on this queue. Will return immediatly, and the block will be executed
 	/// at some point in the future.
 	/// @param block The block of code to be asynchronously dispatched.
-	private lazy var validIdentifiers: DRDispatchProtectedObject<DRCountedSet<String>> = DRDispatchProtectedObject(object: DRCountedSet())
+	private lazy var validIdentifiers: DRDispatchProtectedObject<DRCountedSet<String>> = DRDispatchProtectedObject<DRCountedSet<String>>(object: DRCountedSet())
 	func dispatchAsync(block: DRDispatchBlock, identifier: String? = nil) {
 		if let blockIdentifier = identifier {
-			validIdentifiers.with { (protectedObject: DRCountedSet<String>) -> Void in
+			validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
 				protectedObject.incrementValue(blockIdentifier)
 			}
 			dispatch_async(_queue, { () -> Void in
-				var complete = self.validIdentifiers.with { (protectedObject: DRCountedSet<String>) -> Void in
+				var complete = self.validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
 					if protectedObject.countForValue(blockIdentifier) > 0 {
 						block()
 						protectedObject.decrementValue(blockIdentifier)
@@ -148,7 +148,7 @@ class DRDispatchQueue {
 	/// Prevent any blocks that were dispatched to this queue, via dispatchAsync(block, identifier), with a specific identifier from being executed.
 	/// @param identifier The identifier for blocks to be prevented from being called.
 	func cancelDispatchWithIdentifier(identifier: String) {
-		validIdentifiers.with { (protectedObject: DRCountedSet<String>) -> Void in
+		validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
 			protectedObject.zeroValue(identifier)
 		}
 	}
