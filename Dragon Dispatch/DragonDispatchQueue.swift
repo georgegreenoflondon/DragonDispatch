@@ -35,6 +35,8 @@ class DRDispatchQueue {
 	internal let _queue: dispatch_queue_t
 	/// A dictionary of values that can be set on the queue object to be retreived later.
 	private var _context: [String: AnyObject] = [:]
+	/// Is this one of the global queues (including the main queue).
+	private let _isGlobal: Bool = false
 	
 	// MARK: - Public Variables
 	
@@ -88,12 +90,14 @@ class DRDispatchQueue {
 		_queue = dispatch_get_global_queue(priority.toConst(), 0)
 		self.priority = priority
 		self.type = .Concurrent
+		_isGlobal = true
 	}
 	
 	/// Create a queue to represent the main queue
 	private init() {
 		_queue = dispatch_get_main_queue()
 		type = .Serial
+		_isGlobal = true
 	}
 	
 	/// Create a queue object that represents a dispatch queue with the specitied type.
@@ -203,6 +207,39 @@ class DRDispatchQueue {
 			dispatch_resume(_queue)
 			_isPaused = false
 		}
+	}
+	
+	/// Dispatch a barrier block to the queue. This method should not be called on serial or global queues, doing so will return false and do nothing.
+	/// A barrier block is not treated the same way as other blocks in the queue. When a barrier block is submitted to a concurrent queue (cannot be
+	/// submitted to a serial queue), it will not be executed until all blocks dispatched to the queue prior to the barrier block have completed execution.
+	/// In addition, any blocks submitted after the barrier block will not be executed until the barrier block has completed execution.
+	/// @param block The block to execute after all previously submitted blocks and before any that are submitted after this call.
+	/// @return true if the barrier block was successfully submitted, false if the queue is serial or global.
+	/// @discussion This method is synchronous, it will not return until the barrier block has completed execution, are therefore until all the blocks
+	/// submitted prior to the barrier block have completed execution too.
+	func barrierSync(block: DRDispatchBlock) -> Bool {
+		if _isGlobal { return false }
+		if let type = self.type {
+			if type == DRQueueType.Serial { return false }
+		}
+		dispatch_barrier_sync(_queue, block)
+		return true
+	}
+	
+	/// Dispatch a barrier block to the queue. This method should not be called on serial or global queues, doing so will return false and do nothing.
+	/// A barrier block is not treated the same way as other blocks in the queue. When a barrier block is submitted to a concurrent queue (cannot be
+	/// submitted to a serial queue), it will not be executed until all blocks dispatched to the queue prior to the barrier block have completed execution.
+	/// In addition, any blocks submitted after the barrier block will not be executed until the barrier block has completed execution.
+	/// @param block The block to execute after all previously submitted blocks and before any that are submitted after this call.
+	/// @return true if the barrier block was successfully submitted, false if the queue is serial or global.
+	/// @discussion This method is asynchronous, it will return immediately and the barrier block will be submitted at some point in the future.
+	func barrierAsync(block: DRDispatchBlock) -> Bool {
+		if _isGlobal { return false }
+		if let type = self.type {
+			if type == .Serial { return false }
+		}
+		dispatch_barrier_async(_queue, block)
+		return true
 	}
 	
 	// MARK: - Subscript access to context variables
