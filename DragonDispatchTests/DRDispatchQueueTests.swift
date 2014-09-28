@@ -162,13 +162,38 @@ class DRDispatchQueueTests : XCTestCase {
 		waitForExpectationsWithTimeout(1, handler: nil)
 	}
 	
-	/// Test serial
+	/// Test sync
 	func testSync() {
+		// Serial
 		let queue = DRDispatchQueue(type: .Serial)
 		var canComplete = false
 		queue.dispatchSync { () -> Void in
 			canComplete = true
 		}
 		XCTAssert(canComplete == true, "dispatchSync(block) should not return until the block has been executed.")
+		// Concurrent
+		let queue2 = DRDispatchQueue(type: .Concurrent)
+		var canComplete2 = false
+		queue2.dispatchSync { () -> Void in
+			canComplete2 = true
+		}
+		XCTAssert(canComplete2 == true, "dispatchSync(block) should not return until the block has been executed.")
+	}
+	
+	/// Test dispatch after
+	var testDispatchAfterCanComplete = false
+	func testDispatchAfter() {
+		let queue = DRDispatchQueue(type: .Concurrent)
+		let expectation = expectationWithDescription("Dispatch after expectation.")
+		queue.dispatchAfter(1) { () -> Void in
+			self.testDispatchAfterCanComplete = true
+			expectation.fulfill()
+		}
+		NSTimer.scheduledTimerWithTimeInterval(0.9, target: self, selector: "timerFired", userInfo: nil, repeats: false)
+		waitForExpectationsWithTimeout(1.1, handler: nil)
+	}
+	
+	func timerFired() {
+		XCTAssert(testDispatchAfterCanComplete == false, "The block should not have been executed yet.")
 	}
 }
