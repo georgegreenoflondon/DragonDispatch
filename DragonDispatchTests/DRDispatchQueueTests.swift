@@ -63,7 +63,7 @@ class DRDispatchQueueTests : XCTestCase {
 		}
 	}
 	
-	// Check the priority and type of queues
+	/// Check the priority and type of queues
 	func testPriorityAndType() {
 		// Low
 		var queue = DRDispatchQueue.globalQueueWithPriority(.Low)
@@ -97,6 +97,31 @@ class DRDispatchQueueTests : XCTestCase {
 		queue = DRDispatchQueue(queue: dispatch_queue_create("test queue - custom", DISPATCH_QUEUE_SERIAL))
 		XCTAssert(queue.priority == nil, "Custom queues do not have a priority.")
 		XCTAssert(queue.type == nil, "Custom queues do not know their type.")
+	}
+	
+	/// Test asynchronous concurrent
+	func testAsyncConcurrent() {
+		// dispatch(block)
+		let queue = DRDispatchQueue.globalQueueWithPriority(.Default)
+		let expectation = expectationWithDescription("Connection did complete")
+		var canComplete = false
+		queue.dispatch { () -> Void in
+			if canComplete == true {
+				expectation.fulfill()
+			}
+		}
+		canComplete = true
+		waitForExpectationsWithTimeout(1, handler: nil)
+		// dispatch(block)
+		let expectation2 = expectationWithDescription("Connection did complete")
+		var canComplete2 = false
+		queue.dispatchAsync { () -> Void in
+			if canComplete2 == true {
+				expectation2.fulfill()
+			}
+		}
+		canComplete2 = true
+		waitForExpectationsWithTimeout(1, handler: nil)
 	}
 	
 }
