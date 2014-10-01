@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E7759A6419DC4FCD006E350A /* DRDispatchGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */; };
 		E777E20919D5FBBD000460B4 /* DragonDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20819D5FBBD000460B4 /* DragonDispatch.swift */; };
 		E777E20B19D5FEFC000460B4 /* DragonDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */; };
 		E777E21119D6F56D000460B4 /* DRDispatchSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E21019D6F56D000460B4 /* DRDispatchSemaphore.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchGroupTests.swift; sourceTree = "<group>"; };
 		E777E1EF19D5FB1B000460B4 /* DragonDispatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DragonDispatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E777E1F319D5FB1B000460B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E777E20819D5FBBD000460B4 /* DragonDispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragonDispatch.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				E7B46ACC19D82188000772DD /* DragonDispatchTests.swift */,
 				E7B46AD919D823B8000772DD /* DRDispatchQueueTests.swift */,
+				E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */,
 				E7B46ACA19D82188000772DD /* Supporting Files */,
 			);
 			path = DragonDispatchTests;
@@ -246,6 +249,7 @@
 				E7B46ADA19D823B8000772DD /* DRDispatchQueueTests.swift in Sources */,
 				E7B46AD719D8223A000772DD /* DRDispatchProtectedObject.swift in Sources */,
 				E7B46AD419D82235000772DD /* DragonDispatch.swift in Sources */,
+				E7759A6419DC4FCD006E350A /* DRDispatchGroupTests.swift in Sources */,
 				E7B46AD519D82236000772DD /* DRSet.swift in Sources */,
 				E7B46AD319D82232000772DD /* DragonDispatchQueue.swift in Sources */,
 			);

@@ -14,7 +14,8 @@ func += (left: DRDispatchGroup, right: DRDispatchBlock) {
 }
 
 /// Dispatch groups are used to watch for completion of a number of blocks that have been dispatched for
-/// execution on a dispatch queue.
+/// execution on a dispatch queue. It has the benefit of being able to watch blocks across multiple queues to check
+/// when they have completed.
 class DRDispatchGroup {
 	
 	// MARK: - Private Varialbles
