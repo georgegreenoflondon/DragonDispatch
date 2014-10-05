@@ -118,6 +118,7 @@ let logQueue = DRDispatchQueue(type: .Serial, label: "DRDispatch logging queue."
 /// Log to the console using the standard println() function.
 /// Sometimes when using println() on multiple queues the logs get jumbled together, this function uses a serial queue to ensure that logs
 /// do not get jumbled up and get printed in the that they are called.
+/// @param logString The string to be printed to the console.
 func DRDispatchLog(logString: String) {
 	logQueue.dispatchAsync {
 		println(logString)
