@@ -339,6 +339,7 @@ class DRDispatchQueueTests : XCTestCase {
 	let lengthIncrementQueue = DRDispatchQueue(type: .Concurrent, label: "Test concurrent queue.")
 	
 	func testLengthIncrement() {
+		lengthIncrementQueue.internalLoggingEnabled = true
 		self.lengthIncrementQueue.pause()
 		for i in 0..<10 {
 			let initialLength = self.lengthIncrementQueue.length

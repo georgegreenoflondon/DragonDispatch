@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E768B54E19E1C07900B625CD /* DRDispatchSemaphoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E768B54D19E1C07900B625CD /* DRDispatchSemaphoreTests.swift */; };
 		E7759A6419DC4FCD006E350A /* DRDispatchGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */; };
 		E777E20919D5FBBD000460B4 /* DragonDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20819D5FBBD000460B4 /* DragonDispatch.swift */; };
 		E777E20B19D5FEFC000460B4 /* DragonDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20A19D5FEFC000460B4 /* DragonDispatchQueue.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E768B54D19E1C07900B625CD /* DRDispatchSemaphoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchSemaphoreTests.swift; sourceTree = "<group>"; };
 		E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchGroupTests.swift; sourceTree = "<group>"; };
 		E777E1EF19D5FB1B000460B4 /* DragonDispatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DragonDispatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E777E1F319D5FB1B000460B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				E7B46ACC19D82188000772DD /* DragonDispatchTests.swift */,
 				E7B46AD919D823B8000772DD /* DRDispatchQueueTests.swift */,
 				E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */,
+				E768B54D19E1C07900B625CD /* DRDispatchSemaphoreTests.swift */,
 				E7B46ACA19D82188000772DD /* Supporting Files */,
 			);
 			path = DragonDispatchTests;
@@ -243,6 +246,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E768B54E19E1C07900B625CD /* DRDispatchSemaphoreTests.swift in Sources */,
 				E7B46AD619D82238000772DD /* DRDispatchSemaphore.swift in Sources */,
 				E7B46ACD19D82188000772DD /* DragonDispatchTests.swift in Sources */,
 				E7B46AD819D8223D000772DD /* DRDispatchGroup.swift in Sources */,

@@ -40,6 +40,9 @@ class DRDispatchQueue {
 	
 	// MARK: - Public Variables
 	
+	///
+	var internalLoggingEnabled: Bool = false
+	
 	/// The label that was attached to the queue when it was created, or nil if no label was specified.
 	var label: String? {
 		get {
@@ -47,7 +50,13 @@ class DRDispatchQueue {
 		}
 	}
 	/// The number of blocks remaining to be executed on the queue.
-	private var _length: UInt = 0
+	private var _length: UInt = 0 {
+		didSet {
+			if internalLoggingEnabled {
+				DRDispatchLog("Setting length: \(_length)")
+			}
+		}
+	}
 	var length: UInt {
 		get {
 			return _length
