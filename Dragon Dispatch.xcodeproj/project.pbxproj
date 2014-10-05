@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E71CDD1219E1E4B90076D36D /* DRCountedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71CDD1119E1E4B90076D36D /* DRCountedSet.swift */; };
+		E71CDD1319E1E4BE0076D36D /* DRCountedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71CDD1119E1E4B90076D36D /* DRCountedSet.swift */; };
 		E768B54E19E1C07900B625CD /* DRDispatchSemaphoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E768B54D19E1C07900B625CD /* DRDispatchSemaphoreTests.swift */; };
 		E7759A6419DC4FCD006E350A /* DRDispatchGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */; };
 		E777E20919D5FBBD000460B4 /* DragonDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20819D5FBBD000460B4 /* DragonDispatch.swift */; };
@@ -26,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E71CDD1119E1E4B90076D36D /* DRCountedSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRCountedSet.swift; sourceTree = "<group>"; };
 		E768B54D19E1C07900B625CD /* DRDispatchSemaphoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchSemaphoreTests.swift; sourceTree = "<group>"; };
 		E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchGroupTests.swift; sourceTree = "<group>"; };
 		E777E1EF19D5FB1B000460B4 /* DragonDispatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DragonDispatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				E7CE405E19D72AAF00269B09 /* DRSet.swift */,
+				E71CDD1119E1E4B90076D36D /* DRCountedSet.swift */,
 			);
 			path = DRCore;
 			sourceTree = "<group>";
@@ -236,6 +240,7 @@
 				E7CE405F19D72AAF00269B09 /* DRSet.swift in Sources */,
 				E7CE405819D7134600269B09 /* DRDispatchGroup.swift in Sources */,
 				E777E21119D6F56D000460B4 /* DRDispatchSemaphore.swift in Sources */,
+				E71CDD1219E1E4B90076D36D /* DRCountedSet.swift in Sources */,
 				E777E21419D6FD87000460B4 /* DRDispatchProtectedObject.swift in Sources */,
 				E777E20B19D5FEFC000460B4 /* DragonDispatchQueue.swift in Sources */,
 				E777E20919D5FBBD000460B4 /* DragonDispatch.swift in Sources */,
@@ -249,6 +254,7 @@
 				E768B54E19E1C07900B625CD /* DRDispatchSemaphoreTests.swift in Sources */,
 				E7B46AD619D82238000772DD /* DRDispatchSemaphore.swift in Sources */,
 				E7B46ACD19D82188000772DD /* DragonDispatchTests.swift in Sources */,
+				E71CDD1319E1E4BE0076D36D /* DRCountedSet.swift in Sources */,
 				E7B46AD819D8223D000772DD /* DRDispatchGroup.swift in Sources */,
 				E7B46ADA19D823B8000772DD /* DRDispatchQueueTests.swift in Sources */,
 				E7B46AD719D8223A000772DD /* DRDispatchProtectedObject.swift in Sources */,
