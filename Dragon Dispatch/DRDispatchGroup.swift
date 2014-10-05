@@ -33,6 +33,13 @@ class DRDispatchGroup {
 			return _defaultQueue
 		}
 	}
+	/// The number of blocks that have been added to the group and have not yet completed.
+	private var _count: UInt = 0
+	var count: UInt {
+		get {
+			return _count
+		}
+	}
 	
 	// MARK: - Object Lifecycle Methods
 	
@@ -83,6 +90,16 @@ class DRDispatchGroup {
 			dispatch_group_notify(_group, dispatchQueue._queue, notifyBlock)
 		} else {
 			dispatch_group_notify(_group, _defaultQueue._queue, notifyBlock)
+		}
+	}
+	
+	// MARK: - Internal Helpers
+	
+	func countedBlockFromBlock(block: DRDispatchBlock) -> DRDispatchBlock {
+		_count++
+		return {
+			block()
+			self._count--
 		}
 	}
 	

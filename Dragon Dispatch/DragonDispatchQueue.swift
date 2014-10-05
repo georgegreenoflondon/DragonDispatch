@@ -270,7 +270,7 @@ class DRDispatchQueue {
 	
 	// MARK: - Internal Helpers
 	
-	internal func countedBlockFromBlock(block: DRDispatchBlock) -> DRDispatchBlock {
+	private func countedBlockFromBlock(block: DRDispatchBlock) -> DRDispatchBlock {
 		_length++
 		return {
 			block()

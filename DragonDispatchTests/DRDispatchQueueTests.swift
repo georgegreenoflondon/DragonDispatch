@@ -339,19 +339,19 @@ class DRDispatchQueueTests : XCTestCase {
 	let lengthIncrementQueue = DRDispatchQueue(type: .Concurrent, label: "Test concurrent queue.")
 	
 	func testLengthIncrement() {
-		lengthIncrementQueue.pause()
+		self.lengthIncrementQueue.pause()
 		for i in 0..<10 {
-			let initialLength = lengthIncrementQueue.length
-			lengthIncrementQueue.dispatchAsync {
+			let initialLength = self.lengthIncrementQueue.length
+			self.lengthIncrementQueue.dispatchAsync {
 				var j = 0
 				j = j + 1
 			}
-			XCTAssert(lengthIncrementQueue.length == initialLength + 1, "The length should be incremented after each dispatch.")
+			XCTAssert(self.lengthIncrementQueue.length == initialLength + 1, "The length should be incremented after each dispatch.")
 		}
-		lengthIncrementQueue.resume()
-		lengthIncrementExpectation = expectationWithDescription("Waiting for all the blocks to complete.")
-		NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "lengthIncrementTimerFired", userInfo: nil, repeats: false)
-		waitForExpectationsWithTimeout(5.1, handler: nil)
+		self.lengthIncrementQueue.resume()
+		self.lengthIncrementExpectation = self.expectationWithDescription("Waiting for all the blocks to complete.")
+		NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "lengthIncrementTimerFired", userInfo: nil, repeats: false)
+		self.waitForExpectationsWithTimeout(5.0, handler: nil)
 	}
 	
 	func lengthIncrementTimerFired() {
@@ -379,7 +379,7 @@ class DRDispatchQueueTests : XCTestCase {
 		queue.cancelDispatchWithIdentifier("cancelMe")
 		XCTAssert(queue.length == 10, "The length should have been decremented back to 10.")
 		queue.resume()
-		NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "cancelDecrementTimerFired:", userInfo: ["queue" : queue, "expectation" : expectation], repeats: false)
+		NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "cancelDecrementTimerFired:", userInfo: ["queue" : queue, "expectation" : expectation], repeats: false)
 		waitForExpectationsWithTimeout(5.1, handler: nil)
 	}
 	
