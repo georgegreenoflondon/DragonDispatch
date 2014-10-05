@@ -40,7 +40,7 @@ class DRDispatchQueue {
 	
 	// MARK: - Public Variables
 	
-	///
+	/// Set to true to enable internal console logs.
 	var internalLoggingEnabled: Bool = false
 	
 	/// The label that was attached to the queue when it was created, or nil if no label was specified.
@@ -50,16 +50,10 @@ class DRDispatchQueue {
 		}
 	}
 	/// The number of blocks remaining to be executed on the queue.
-	private var _length: UInt = 0 {
-		didSet {
-			if internalLoggingEnabled {
-				DRDispatchLog("Setting length: \(_length)")
-			}
-		}
-	}
+	private var _length: DRDispatchProtectedObject<UInt> = DRDispatchProtectedObject(object: 0)
 	var length: UInt {
 		get {
-			return _length
+			return _length._protectedObject
 		}
 	}
 	
@@ -152,12 +146,16 @@ class DRDispatchQueue {
 			validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
 				protectedObject.incrementValue(blockIdentifier)
 			}
-			_length++
+			_length.with { (inout length: UInt) -> Void in
+				length = length + 1
+			}
 			dispatch_async(_queue, { () -> Void in
 				var complete = self.validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
 					if protectedObject.countForValue(blockIdentifier) > 0 {
 						block()
-						self._length--
+						self._length.with { (inout length: UInt) -> Void in
+							length = length - 1
+						}
 						protectedObject.decrementValue(blockIdentifier)
 					}
 				}
@@ -174,7 +172,9 @@ class DRDispatchQueue {
 			// Get the number of blocks queued with the identifier
 			let count = protectedObject.countForValue(identifier)
 			// Decrement the count by that number
-			self._length -= count
+			self._length.with { (inout length: UInt) -> Void in
+				length -= count
+			}
 			// Zero the count for the identifier so that they do not get executed
 			protectedObject.zeroValue(identifier)
 		}
@@ -280,10 +280,14 @@ class DRDispatchQueue {
 	// MARK: - Internal Helpers
 	
 	private func countedBlockFromBlock(block: DRDispatchBlock) -> DRDispatchBlock {
-		_length++
+		_length.with { (inout length: UInt) -> Void in
+			length = length + 1
+		}
 		return {
 			block()
-			self._length--
+			self._length.with { (inout length: UInt) -> Void in
+				length = length - 1
+			}
 		}
 	}
 	

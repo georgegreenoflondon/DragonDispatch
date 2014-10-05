@@ -16,7 +16,7 @@ class DRDispatchProtectedObject<T> {
 	// MARK: - Private Variables
 	
 	private let _semaphore: DRDispatchSemaphore
-	private var _protectedObject: T
+	internal var _protectedObject: T
 	
 	// MARK: - Object Lifecycle Methods
 	

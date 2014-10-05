@@ -34,10 +34,10 @@ class DRDispatchGroup {
 		}
 	}
 	/// The number of blocks that have been added to the group and have not yet completed.
-	private var _count: UInt = 0
+	private var _count: DRDispatchProtectedObject<UInt> = DRDispatchProtectedObject(object: 0)
 	var count: UInt {
 		get {
-			return _count
+			return _count._protectedObject
 		}
 	}
 	
@@ -96,10 +96,14 @@ class DRDispatchGroup {
 	// MARK: - Internal Helpers
 	
 	func countedBlockFromBlock(block: DRDispatchBlock) -> DRDispatchBlock {
-		_count++
+		_count.with { (inout count: UInt) -> Void in
+			count = count + 1
+		}
 		return {
 			block()
-			self._count--
+			self._count.with { (inout count: UInt) -> Void in
+				count = count - 1
+			}
 		}
 	}
 	
