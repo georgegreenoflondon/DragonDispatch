@@ -72,7 +72,7 @@ func DRDispatchSync(block: DRDispatchBlock, priority: DRQueuePriority = .Default
 	return queue
 }
 
-/// Dispatched a block of code to be executed on the main queue.
+/// Dispatch a block of code to be executed on the main queue.
 /// @param block The block of code to be executed.
 /// @param synchronously If true this method will not return until the block of code has been executed. If false this method
 /// will return immediately and block will be executed on the main queue at some point in the future. Defaults to true.
@@ -83,6 +83,18 @@ func DRDispatchMain(block: DRDispatchBlock, synchronously: Bool = true) {
 	} else {
 		DRDispatchQueue.mainQueue().dispatchAsync(block)
 	}
+}
+
+/// Dispatch a block of code for execution on the specified priority global queue after a specified time interval.
+/// Returns immediately and the block will be executed at some point in the future.
+/// @param timeInterval The time after which the block should be dispatched.
+/// @param block The block of code to be executed after the time interval.
+/// @param priority The priority of the global queue to which the block should be dispatched.
+/// @return The queue to which the block will be dispatched.
+func DRDispatchAfter(timeInterval: DRTimeInterval, block: DRDispatchBlock, priority: DRQueuePriority = .Default) -> DRDispatchQueue {
+	let queue = DRDispatchQueue.globalQueueWithPriority(priority)
+	queue.dispatchAfter(timeInterval, block: block)
+	return queue
 }
 
 // MARK: - Internal Helpers

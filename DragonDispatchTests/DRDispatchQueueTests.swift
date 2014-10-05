@@ -312,5 +312,25 @@ class DRDispatchQueueTests : XCTestCase {
 			valid2 = true
 		}
 	}
+	
+	/// Test asynchronous barriers on the queue
+	func testAsynchronousBarrier() {
+		let queue = DRDispatchQueue(type: .Concurrent)
+		var valid1 = false
+		var valid2 = false
+		var valid3 = false
+		queue.dispatchAsync {
+			valid1 = true
+		}
+		queue.barrierSync {
+			XCTAssert(valid1 == true, "Should be called after the first block.")
+			XCTAssert(valid2 == false, "This should be called before the second queue.dispatchAsync call!")
+			valid3 = true
+		}
+		XCTAssert(valid1 == true && valid3 == true && valid2 == false, "Something went wrong.")
+		queue.dispatchAsync {
+			valid2 = true
+		}
+	}
 
 }
