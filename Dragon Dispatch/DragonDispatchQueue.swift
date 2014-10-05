@@ -46,6 +46,13 @@ class DRDispatchQueue {
 			return String.stringWithUTF8String(dispatch_queue_get_label(_queue))
 		}
 	}
+	/// The number of blocks remaining to be executed on the queue.
+	private var _length: UInt = 0
+	var length: UInt {
+		get {
+			return _length
+		}
+	}
 	
 	private var _isPaused: Bool = false
 	/// Used to check if the queue is currently paused.
@@ -118,13 +125,13 @@ class DRDispatchQueue {
 	
 	/// A convenience method for dispatchAsync.
 	func dispatch(block: DRDispatchBlock) {
-		dispatchAsync(block)
+		dispatchAsync(countedBlockFromBlock(block))
 	}
 	
 	/// Executes the passed in block on this queue. Will not return until the block has been executed.
 	/// @param block The block of code to be synchronously dispatched.
 	func dispatchSync(block: DRDispatchBlock) {
-		dispatch_sync(_queue, block)
+		dispatch_sync(_queue, countedBlockFromBlock(block))
 	}
 	
 	/// Executes the passed in block on this queue. Will return immediatly, and the block will be executed
@@ -136,16 +143,18 @@ class DRDispatchQueue {
 			validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
 				protectedObject.incrementValue(blockIdentifier)
 			}
+			_length++
 			dispatch_async(_queue, { () -> Void in
 				var complete = self.validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
 					if protectedObject.countForValue(blockIdentifier) > 0 {
 						block()
+						self._length--
 						protectedObject.decrementValue(blockIdentifier)
 					}
 				}
 			})
 		} else {
-			dispatch_async(_queue, block)
+			dispatch_async(_queue, countedBlockFromBlock(block))
 		}
 	}
 	
@@ -153,6 +162,11 @@ class DRDispatchQueue {
 	/// @param identifier The identifier for blocks to be prevented from being called.
 	func cancelDispatchWithIdentifier(identifier: String) {
 		validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
+			// Get the number of blocks queued with the identifier
+			let count = protectedObject.countForValue(identifier)
+			// Decrement the count by that number
+			self._length -= count
+			// Zero the count for the identifier so that they do not get executed
 			protectedObject.zeroValue(identifier)
 		}
 	}
@@ -251,6 +265,16 @@ class DRDispatchQueue {
 		}
 		set(newValue) {
 			_context[key] = newValue
+		}
+	}
+	
+	// MARK: - Internal Helpers
+	
+	internal func countedBlockFromBlock(block: DRDispatchBlock) -> DRDispatchBlock {
+		_length++
+		return {
+			block()
+			self._length--
 		}
 	}
 	
