@@ -25,14 +25,9 @@ public class DRDispatchGroup {
 	
 	// MARK: - Public Variables
 	
-	private var _defaultQueue: DRDispatchQueue
 	/// The default queue to which blocks will be dispatched if another queue is not explicitly specified in a call
 	/// to addBlock(block, queue).
-	public var defaultQueue: DRDispatchQueue {
-		get {
-			return _defaultQueue
-		}
-	}
+    public private(set) var defaultQueue: DRDispatchQueue
 	/// The number of blocks that have been added to the group and have not yet completed.
 	private var _count: DRDispatchProtectedObject<UInt> = DRDispatchProtectedObject(object: 0)
 	public var count: UInt {
@@ -49,7 +44,7 @@ public class DRDispatchGroup {
 	/// global concurrent queue.
 	public init(defaultQueue: DRDispatchQueue = DRDispatchQueue.globalQueueWithPriority(.Default)) {
 		// Keep hold of the default queue
-		_defaultQueue = defaultQueue
+		self.defaultQueue = defaultQueue
 	}
 	
 	/// MARK: - Public Action Methods
@@ -61,7 +56,7 @@ public class DRDispatchGroup {
 		if let dispatchQueue = queue {
 			dispatch_group_async(_group, dispatchQueue._queue, block)
 		} else {
-			dispatch_group_async(_group, _defaultQueue._queue, block)
+			dispatch_group_async(_group, defaultQueue._queue, block)
 		}
 	}
 	
@@ -89,7 +84,7 @@ public class DRDispatchGroup {
 		if let dispatchQueue = queue {
 			dispatch_group_notify(_group, dispatchQueue._queue, notifyBlock)
 		} else {
-			dispatch_group_notify(_group, _defaultQueue._queue, notifyBlock)
+			dispatch_group_notify(_group, defaultQueue._queue, notifyBlock)
 		}
 	}
 	

@@ -57,13 +57,9 @@ public class DRDispatchQueue {
 		}
 	}
 	
-	private var _isPaused: Bool = false
-	/// Used to check if the queue is currently paused.
-	public var isPaused: Bool {
-		get {
-			return _isPaused
-		}
-	}
+    /// Indicetes if the queue is currently paused.
+    /// Cannot be set externally.
+    public private(set) var isPaused: Bool = false
 	
 	/// The priority of the queue if this object represent a global queue. Otherwise nil.
 	public let priority: DRQueuePriority?
@@ -217,18 +213,18 @@ public class DRDispatchQueue {
 	/// Temporarily stop the queue from starting execution of any new blocks.
 	/// Any blocks that have been started will be allowed to finish.
 	public func pause() {
-		if _isPaused == false {
+		if isPaused == false {
 			dispatch_suspend(_queue)
-			_isPaused = true
+			isPaused = true
 		}
 	}
 	
 	/// Resume a queue that has been paused via the pause() method. The queue will once again be allowed to 
 	/// begin execution of blocks.
 	public func resume() {
-		if _isPaused == true {
+		if isPaused == true {
 			dispatch_resume(_queue)
-			_isPaused = false
+			isPaused = false
 		}
 	}
 	

@@ -18,14 +18,9 @@ public class DRDispatchSemaphore {
 	
 	// MARK: - Public Variables
 	
-	private var _maxEntrants: Int
 	/// The maximum number of entrants allowed to code protected by this semaphore.
 	/// (The manimum number of times that code protected by this semaphore can be executed concurrently.)
-	public var maxEntrants: Int {
-		get {
-			return _maxEntrants
-		}
-	}
+    public private(set) var maxEntrants: Int
 	
 	// MARK: - Object Lifecycle Methods
 	
@@ -36,7 +31,7 @@ public class DRDispatchSemaphore {
 		// Create the semaphore object
 		_semaphore = dispatch_semaphore_create(maxEntrants)
 		// Keep hold of the value
-		_maxEntrants = maxEntrants
+		self.maxEntrants = maxEntrants
 	}
 	
 	// MARK: - Public Action Methods
