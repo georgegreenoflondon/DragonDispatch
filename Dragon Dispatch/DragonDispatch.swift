@@ -8,12 +8,12 @@
 
 import Foundation
 
-typealias DRDispatchBlock = (() -> Void)
-typealias DRDispatchIterationBlock = ((index: UInt) -> Void)
-typealias DRTimeInterval = NSTimeInterval
+public typealias DRDispatchBlock = (() -> Void)
+public typealias DRDispatchIterationBlock = ((index: UInt) -> Void)
+public typealias DRTimeInterval = NSTimeInterval
 
 /// The priority of a global concurrent queue.
-enum DRQueuePriority {
+public enum DRQueuePriority {
 	case Low
 	case Default
 	case High
@@ -34,7 +34,7 @@ enum DRQueuePriority {
 }
 
 /// The type of a dispatch queue.
-enum DRQueueType {
+public enum DRQueueType {
 	/// A serial queue will execute all blocks dispatch to it one after another.
 	/// It will wait for the first block to complete and then execute the second one after it and so on...
 	/// Guarantees that all blocks dispatched will be executed in the order that they are dispatched.
@@ -57,7 +57,7 @@ enum DRQueueType {
 /// Dispatch a block of code for execution on the specifed priority global concurrent queue.
 /// Returns immediately and the block will be executed at some point in the future.
 /// @returns A reference to the queue that the block will be executed on.
-func DRDispatchAsync(block : DRDispatchBlock, priority: DRQueuePriority = .Default) -> DRDispatchQueue {
+public func DRDispatchAsync(block : DRDispatchBlock, priority: DRQueuePriority = .Default) -> DRDispatchQueue {
 	let queue = DRDispatchQueue.globalQueueWithPriority(priority)
 	queue.dispatchAsync(block)
 	return queue
@@ -66,7 +66,7 @@ func DRDispatchAsync(block : DRDispatchBlock, priority: DRQueuePriority = .Defau
 /// Dispatch a block of code for execution on the specified priority global concurrent queue.
 /// Returns once execution of the block has completed.
 /// @returns A reference to the queue that the block of code was executed on.
-func DRDispatchSync(block: DRDispatchBlock, priority: DRQueuePriority = .Default) -> DRDispatchQueue {
+public func DRDispatchSync(block: DRDispatchBlock, priority: DRQueuePriority = .Default) -> DRDispatchQueue {
 	let queue = DRDispatchQueue.globalQueueWithPriority(priority)
 	queue.dispatchSync(block)
 	return queue
@@ -77,7 +77,7 @@ func DRDispatchSync(block: DRDispatchBlock, priority: DRQueuePriority = .Default
 /// @param synchronously If true this method will not return until the block of code has been executed. If false this method
 /// will return immediately and block will be executed on the main queue at some point in the future. Defaults to true.
 /// @warning If you call this method from the main queue with synchronously == true, it will block the main queue.
-func DRDispatchMain(block: DRDispatchBlock, synchronously: Bool = true) {
+public func DRDispatchMain(block: DRDispatchBlock, synchronously: Bool = true) {
 	if synchronously {
 		DRDispatchQueue.mainQueue().dispatchSync(block)
 	} else {
@@ -91,7 +91,7 @@ func DRDispatchMain(block: DRDispatchBlock, synchronously: Bool = true) {
 /// @param block The block of code to be executed after the time interval.
 /// @param priority The priority of the global queue to which the block should be dispatched.
 /// @return The queue to which the block will be dispatched.
-func DRDispatchAfter(timeInterval: DRTimeInterval, block: DRDispatchBlock, priority: DRQueuePriority = .Default) -> DRDispatchQueue {
+public func DRDispatchAfter(timeInterval: DRTimeInterval, block: DRDispatchBlock, priority: DRQueuePriority = .Default) -> DRDispatchQueue {
 	let queue = DRDispatchQueue.globalQueueWithPriority(priority)
 	queue.dispatchAfter(timeInterval, block: block)
 	return queue
@@ -106,9 +106,9 @@ internal func dispatchTimeFromTimeInterval(timeInterval: DRTimeInterval?) -> dis
 
 // MARK: - Dispatch Once
 
-typealias DRDispatchOnceToken = dispatch_once_t
+public typealias DRDispatchOnceToken = dispatch_once_t
 
-func DRDispatchOnce(block: DRDispatchBlock, inout token: DRDispatchOnceToken) {
+public func DRDispatchOnce(block: DRDispatchBlock, inout token: DRDispatchOnceToken) {
 	dispatch_once(&token, block)
 }
 
@@ -119,7 +119,7 @@ let logQueue = DRDispatchQueue(type: .Serial, label: "DRDispatch logging queue."
 /// Sometimes when using println() on multiple queues the logs get jumbled together, this function uses a serial queue to ensure that logs
 /// do not get jumbled up and get printed in the that they are called.
 /// @param logString The string to be printed to the console.
-func DRDispatchLog(logString: String) {
+public func DRDispatchLog(logString: String) {
 	logQueue.dispatchAsync {
 		println(logString)
 	}

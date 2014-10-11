@@ -9,11 +9,11 @@
 import Foundation
 
 /// Compare two DRDispatchQueue objects. Two are equal if they represent the same underlying dispatch_queue_t.
-func == (left: DRDispatchQueue, right: DRDispatchQueue) -> Bool {
+public func == (left: DRDispatchQueue, right: DRDispatchQueue) -> Bool {
 	return left._queue.isEqual(right._queue)
 }
 
-func != (left: DRDispatchQueue, right: DRDispatchQueue) -> Bool {
+public func != (left: DRDispatchQueue, right: DRDispatchQueue) -> Bool {
 	return !(left == right)
 }
 
@@ -27,7 +27,7 @@ private let _dragonConcurrentQueue = DRDispatchQueue(type: .Concurrent, label: "
 
 /// DRDispatchQueue
 /// This class represents a gcd dispatch queue on which blocks of code may be dispatched.
-class DRDispatchQueue {
+public class DRDispatchQueue {
 	
 	// MARK: - Private Variables
 	
@@ -44,7 +44,7 @@ class DRDispatchQueue {
 	var internalLoggingEnabled: Bool = false
 	
 	/// The label that was attached to the queue when it was created, or nil if no label was specified.
-	var label: String? {
+	public var label: String? {
 		get {
 			return String.stringWithUTF8String(dispatch_queue_get_label(_queue))
 		}
@@ -59,24 +59,24 @@ class DRDispatchQueue {
 	
 	private var _isPaused: Bool = false
 	/// Used to check if the queue is currently paused.
-	var isPaused: Bool {
+	public var isPaused: Bool {
 		get {
 			return _isPaused
 		}
 	}
 	
 	/// The priority of the queue if this object represent a global queue. Otherwise nil.
-	let priority: DRQueuePriority?
+	public let priority: DRQueuePriority?
 	/// The type of the queue. Either .Serial or .Concurrent.
-	let type: DRQueueType?
+	public let type: DRQueueType?
 	
 	// MARK: - Class Methods
 	
-	class func mainQueue() -> DRDispatchQueue {
+	public class func mainQueue() -> DRDispatchQueue {
 		return _mainQueue
 	}
 	
-	class func globalQueueWithPriority(priority: DRQueuePriority) -> DRDispatchQueue {
+	public class func globalQueueWithPriority(priority: DRQueuePriority) -> DRDispatchQueue {
 		switch priority {
 		case .Low:
 			return _lowPriorityQueue
@@ -114,26 +114,26 @@ class DRDispatchQueue {
 	/// This will create a new underlying dispatch queue.
 	/// @param type The type of queue to be created.
 	/// @param label A string used to identify the queue.
-	init(type: DRQueueType, label: String = "Dragon Dispatch Queue") {
+	public init(type: DRQueueType, label: String = "Dragon Dispatch Queue") {
 		_queue = dispatch_queue_create(label, type.toConst())
 		self.type = type
 	}
 	
 	/// Create a queue object that represents the specified dispatch queue.
-	init(queue: dispatch_queue_t) {
+	public init(queue: dispatch_queue_t) {
 		_queue = queue
 	}
 	
 	// MARK: - External Action Methods
 	
 	/// A convenience method for dispatchAsync.
-	func dispatch(block: DRDispatchBlock) {
+	public func dispatch(block: DRDispatchBlock) {
 		dispatchAsync(countedBlockFromBlock(block))
 	}
 	
 	/// Executes the passed in block on this queue. Will not return until the block has been executed.
 	/// @param block The block of code to be synchronously dispatched.
-	func dispatchSync(block: DRDispatchBlock) {
+	public func dispatchSync(block: DRDispatchBlock) {
 		dispatch_sync(_queue, countedBlockFromBlock(block))
 	}
 	
@@ -141,7 +141,7 @@ class DRDispatchQueue {
 	/// at some point in the future.
 	/// @param block The block of code to be asynchronously dispatched.
 	private lazy var validIdentifiers: DRDispatchProtectedObject<DRCountedSet<String>> = DRDispatchProtectedObject<DRCountedSet<String>>(object: DRCountedSet())
-	func dispatchAsync(block: DRDispatchBlock, identifier: String? = nil) {
+	public func dispatchAsync(block: DRDispatchBlock, identifier: String? = nil) {
 		if let blockIdentifier = identifier {
 			validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
 				protectedObject.incrementValue(blockIdentifier)
@@ -167,7 +167,7 @@ class DRDispatchQueue {
 	
 	/// Prevent any blocks that were dispatched to this queue, via dispatchAsync(block, identifier), with a specific identifier from being executed.
 	/// @param identifier The identifier for blocks to be prevented from being called.
-	func cancelDispatchWithIdentifier(identifier: String) {
+	public func cancelDispatchWithIdentifier(identifier: String) {
 		validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
 			// Get the number of blocks queued with the identifier
 			let count = protectedObject.countForValue(identifier)
@@ -183,7 +183,7 @@ class DRDispatchQueue {
 	/// Dispatches a block of code to the queue after a given time interval.
 	/// @param timeInterval The time, in seconds, after which to dispatch the block.
 	/// @param block The block of code to be dispatched.
-	func dispatchAfter(timeInterval: DRTimeInterval, block: DRDispatchBlock) {
+	public func dispatchAfter(timeInterval: DRTimeInterval, block: DRDispatchBlock) {
 		let time = dispatchTimeFromTimeInterval(timeInterval)
 		dispatch_after(time, _queue, block)
 	}
@@ -195,7 +195,7 @@ class DRDispatchQueue {
 	/// This method will not return until all iterations of the block of code have been executed.
 	/// @param The number of times to execute the block.
 	/// @param block The block of code to be executed.
-	func dispatchIterateSync(iterations: UInt, block: DRDispatchIterationBlock) {
+	public func dispatchIterateSync(iterations: UInt, block: DRDispatchIterationBlock) {
 		dispatch_apply(iterations, _queue, block)
 	}
 	
@@ -208,7 +208,7 @@ class DRDispatchQueue {
 	/// at some point in the future.
 	/// @param The number of times to execute the block.
 	/// @param block The block of code to be executed.
-	func dispatchIterateAsync(iterations: UInt, block: DRDispatchIterationBlock) {
+	public func dispatchIterateAsync(iterations: UInt, block: DRDispatchIterationBlock) {
 		_dragonConcurrentQueue.dispatchAsync { () -> Void in
 			self.dispatchIterateSync(iterations, block)
 		}
@@ -216,7 +216,7 @@ class DRDispatchQueue {
 	
 	/// Temporarily stop the queue from starting execution of any new blocks.
 	/// Any blocks that have been started will be allowed to finish.
-	func pause() {
+	public func pause() {
 		if _isPaused == false {
 			dispatch_suspend(_queue)
 			_isPaused = true
@@ -225,7 +225,7 @@ class DRDispatchQueue {
 	
 	/// Resume a queue that has been paused via the pause() method. The queue will once again be allowed to 
 	/// begin execution of blocks.
-	func resume() {
+	public func resume() {
 		if _isPaused == true {
 			dispatch_resume(_queue)
 			_isPaused = false
@@ -240,7 +240,7 @@ class DRDispatchQueue {
 	/// @return true if the barrier block was successfully submitted, false if the queue is serial or global.
 	/// @discussion This method is synchronous, it will not return until the barrier block has completed execution, are therefore until all the blocks
 	/// submitted prior to the barrier block have completed execution too.
-	func barrierSync(block: DRDispatchBlock) -> Bool {
+	public func barrierSync(block: DRDispatchBlock) -> Bool {
 		if _isGlobal { return false }
 		if let type = self.type {
 			if type == DRQueueType.Serial { return false }
@@ -256,7 +256,7 @@ class DRDispatchQueue {
 	/// @param block The block to execute after all previously submitted blocks and before any that are submitted after this call.
 	/// @return true if the barrier block was successfully submitted, false if the queue is serial or global.
 	/// @discussion This method is asynchronous, it will return immediately and the barrier block will be submitted at some point in the future.
-	func barrierAsync(block: DRDispatchBlock) -> Bool {
+	public func barrierAsync(block: DRDispatchBlock) -> Bool {
 		if _isGlobal { return false }
 		if let type = self.type {
 			if type == .Serial { return false }
@@ -268,7 +268,7 @@ class DRDispatchQueue {
 	// MARK: - Subscript access to context variables
 	
 	/// Access the context information for the queue.
-	subscript(key: String) -> AnyObject? {
+	public subscript(key: String) -> AnyObject? {
 		get {
 			return _context[key]
 		}

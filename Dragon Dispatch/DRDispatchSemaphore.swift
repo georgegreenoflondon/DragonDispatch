@@ -9,7 +9,7 @@
 import Foundation
 
 /// This class represents a counting semaphore object.
-class DRDispatchSemaphore {
+public class DRDispatchSemaphore {
 	
 	// MARK: - Private Variables
 	
@@ -21,7 +21,7 @@ class DRDispatchSemaphore {
 	private var _maxEntrants: Int
 	/// The maximum number of entrants allowed to code protected by this semaphore.
 	/// (The manimum number of times that code protected by this semaphore can be executed concurrently.)
-	var maxEntrants: Int {
+	public var maxEntrants: Int {
 		get {
 			return _maxEntrants
 		}
@@ -32,7 +32,7 @@ class DRDispatchSemaphore {
 	/// Create a new semaphore object with the specified maximum number of entrants.
 	/// @param maxEntrants An optional parameter to specify the maximum number of entrants allowed to any code
 	/// protected by this semaphore. Defaults to 1.
-	init(maxEntrants: Int = 1) {
+	public init(maxEntrants: Int = 1) {
 		// Create the semaphore object
 		_semaphore = dispatch_semaphore_create(maxEntrants)
 		// Keep hold of the value
@@ -48,7 +48,7 @@ class DRDispatchSemaphore {
 	/// Defaults to nil, to specify to wait forever.
 	/// @return true if the block of code was executed, false if the specified timeout was reached before the block
 	/// was executed.
-	func execute(block: DRDispatchBlock, timeout: DRTimeInterval? = nil) -> Bool {
+	public func execute(block: DRDispatchBlock, timeout: DRTimeInterval? = nil) -> Bool {
 		let waitTime = dispatchTimeFromTimeInterval(timeout)
 		if dispatch_semaphore_wait(_semaphore, waitTime) == 0 {
 			block()
@@ -63,7 +63,7 @@ class DRDispatchSemaphore {
 	/// @return true if the semaphore reaches 0 before the timeout, false if the timeout is reached before the 
 	/// semaphore reaches 0. If this method returns false, protected code should NOT be executed.
 	/// @warning This method is provided for API completness, its use is NOT reccommended. Instead use the execute(block, timeout) method to safely execute a block of code.
-	func wait(timeout: DRTimeInterval? = nil) -> Bool {
+	public func wait(timeout: DRTimeInterval? = nil) -> Bool {
 		let waitTime = dispatchTimeFromTimeInterval(timeout)
 		return dispatch_semaphore_wait(_semaphore, waitTime) == 0
 	}
@@ -71,7 +71,7 @@ class DRDispatchSemaphore {
 	/// Increments the internal count of the semaphore. Calling this will allow the next entrant currently waiting at a wait() call to continue.
 	/// @return true if a another waiting entrant was allowed to continue as a result of this call, otherwise false
 	/// @warning This method is provided for API completness, its use is NOT reccommended. Instead use the execute(block, timeout) method to safely execute a block of code.
-	func signal() -> Bool {
+	public func signal() -> Bool {
 		return dispatch_semaphore_signal(_semaphore) == 0
 	}
 	

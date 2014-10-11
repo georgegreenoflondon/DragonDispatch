@@ -11,7 +11,7 @@ import Foundation
 /// A class used to wrap any type of object in a way that makes accessing it thread safe.
 /// An internal semaphore is used to ensure that the object to be protected is not accessed more than the
 /// specified number of times concurrently.
-class DRDispatchProtectedObject<T> {
+public class DRDispatchProtectedObject<T> {
 	
 	// MARK: - Private Variables
 	
@@ -24,7 +24,7 @@ class DRDispatchProtectedObject<T> {
 	/// @param object The object to be protected.
 	/// @param maxConcurrentAccessors Optional parameter used to specify the maximum number of times the protected object can
 	/// be accessed concurrently.
-	init(object: T, maxConcurrentAccessors: Int = 1) {
+	public init(object: T, maxConcurrentAccessors: Int = 1) {
 		// Create a semaphore to protect the object
 		_semaphore = DRDispatchSemaphore(maxEntrants: maxConcurrentAccessors)
 		// Keep hold of the object to protect
@@ -43,7 +43,7 @@ class DRDispatchProtectedObject<T> {
 	/// may be allowed access. If you fail to call done() the object may become permanently unavailable for use.
 	/// If this method returns nil, there is no need to call done.
 	/// Use of the with(block, timeout) method is reccommended for access to protected objects.
-	func requestAccess(timeout: DRTimeInterval? = nil) -> T? {
+	public func requestAccess(timeout: DRTimeInterval? = nil) -> T? {
 		if _semaphore.wait(timeout: timeout) { return _protectedObject }
 		else { return nil }
 	}
@@ -52,7 +52,7 @@ class DRDispatchProtectedObject<T> {
 	/// any use of the protected object that was returned by a previous call to requestAccess(timeout).
 	/// This method should not be called if the respective call to requestAccess(timeout) returned nil.
 	/// Use of the with(block, timeout) method is reccommended for access to protected objects.
-	func done() {
+	public func done() {
 		_semaphore.signal()
 	}
 	
@@ -64,7 +64,7 @@ class DRDispatchProtectedObject<T> {
 	/// the object became safe to use.
 	/// @discussion In the event of a true return value, the block will have been executed with safe access to the protected
 	/// object. If the method returned false, the block was not executed.
-	func with(block: (inout protectedObject: T) -> Void, timeout: DRTimeInterval? = nil) -> Bool {
+	public func with(block: (inout protectedObject: T) -> Void, timeout: DRTimeInterval? = nil) -> Bool {
 		return _semaphore.execute({ () -> Void in
 			block(protectedObject: &self._protectedObject)
 		}, timeout: timeout)
