@@ -57,7 +57,7 @@ public class DRDispatchQueue {
 		}
 	}
 	
-    /// Indicetes if the queue is currently paused.
+    /// Indicates if the queue is currently paused.
     /// Cannot be set externally.
     public private(set) var isPaused: Bool = false
 	
@@ -133,10 +133,10 @@ public class DRDispatchQueue {
 		dispatch_sync(_queue, countedBlockFromBlock(block))
 	}
 	
-	/// Executes the passed in block on this queue. Will return immediatly, and the block will be executed
-	/// at some point in the future.
-	/// @param block The block of code to be asynchronously dispatched.
 	private lazy var validIdentifiers: DRDispatchProtectedObject<DRCountedSet<String>> = DRDispatchProtectedObject<DRCountedSet<String>>(object: DRCountedSet())
+    /// Executes the passed in block on this queue. Will return immediatly, and the block will be executed
+    /// at some point in the future.
+    /// @param block The block of code to be asynchronously dispatched.
 	public func dispatchAsync(block: DRDispatchBlock, identifier: String? = nil) {
 		if let blockIdentifier = identifier {
 			validIdentifiers.with { (inout protectedObject: DRCountedSet<String>) -> Void in
