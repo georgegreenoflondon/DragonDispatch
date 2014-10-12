@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		E71CDD1219E1E4B90076D36D /* DRCountedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71CDD1119E1E4B90076D36D /* DRCountedSet.swift */; };
 		E71CDD1319E1E4BE0076D36D /* DRCountedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71CDD1119E1E4B90076D36D /* DRCountedSet.swift */; };
+		E735819219E9BF850029BB41 /* DRDispatchChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = E735819119E9BF850029BB41 /* DRDispatchChain.swift */; };
+		E735819319E9BF850029BB41 /* DRDispatchChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = E735819119E9BF850029BB41 /* DRDispatchChain.swift */; };
 		E768B54E19E1C07900B625CD /* DRDispatchSemaphoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E768B54D19E1C07900B625CD /* DRDispatchSemaphoreTests.swift */; };
 		E7759A6419DC4FCD006E350A /* DRDispatchGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */; };
 		E777E20919D5FBBD000460B4 /* DragonDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777E20819D5FBBD000460B4 /* DragonDispatch.swift */; };
@@ -29,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		E71CDD1119E1E4B90076D36D /* DRCountedSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRCountedSet.swift; sourceTree = "<group>"; };
+		E735819119E9BF850029BB41 /* DRDispatchChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchChain.swift; sourceTree = "<group>"; };
 		E768B54D19E1C07900B625CD /* DRDispatchSemaphoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchSemaphoreTests.swift; sourceTree = "<group>"; };
 		E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchGroupTests.swift; sourceTree = "<group>"; };
 		E777E1EF19D5FB1B000460B4 /* DragonDispatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DragonDispatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +93,7 @@
 				E777E21019D6F56D000460B4 /* DRDispatchSemaphore.swift */,
 				E777E21319D6FD87000460B4 /* DRDispatchProtectedObject.swift */,
 				E7CE405719D7134600269B09 /* DRDispatchGroup.swift */,
+				E735819119E9BF850029BB41 /* DRDispatchChain.swift */,
 				E777E1F219D5FB1B000460B4 /* Supporting Files */,
 			);
 			path = "Dragon Dispatch";
@@ -238,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7CE405F19D72AAF00269B09 /* DRSet.swift in Sources */,
+				E735819219E9BF850029BB41 /* DRDispatchChain.swift in Sources */,
 				E7CE405819D7134600269B09 /* DRDispatchGroup.swift in Sources */,
 				E777E21119D6F56D000460B4 /* DRDispatchSemaphore.swift in Sources */,
 				E71CDD1219E1E4B90076D36D /* DRCountedSet.swift in Sources */,
@@ -260,6 +265,7 @@
 				E7B46AD719D8223A000772DD /* DRDispatchProtectedObject.swift in Sources */,
 				E7B46AD419D82235000772DD /* DragonDispatch.swift in Sources */,
 				E7759A6419DC4FCD006E350A /* DRDispatchGroupTests.swift in Sources */,
+				E735819319E9BF850029BB41 /* DRDispatchChain.swift in Sources */,
 				E7B46AD519D82236000772DD /* DRSet.swift in Sources */,
 				E7B46AD319D82232000772DD /* DragonDispatchQueue.swift in Sources */,
 			);

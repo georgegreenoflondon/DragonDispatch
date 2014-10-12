@@ -11,6 +11,7 @@ import Foundation
 public typealias DRDispatchBlock = (() -> Void)
 public typealias DRDispatchIterationBlock = ((index: UInt) -> Void)
 public typealias DRTimeInterval = NSTimeInterval
+public typealias DRDispatchChainBlock = ((_: Any?) -> Any?)
 
 /// The priority of a global concurrent queue.
 public enum DRQueuePriority {
@@ -114,7 +115,7 @@ public func DRDispatchOnce(block: DRDispatchBlock, inout token: DRDispatchOnceTo
 
 // MARK: - Queue safe logging
 
-let logQueue = DRDispatchQueue(type: .Serial, label: "DRDispatch logging queue.")
+let logQueue = DRDispatchQueue(type: .Serial, label: "DRDispatch.LoggingQueue")
 /// Log to the console using the standard println() function.
 /// Sometimes when using println() on multiple queues the logs get jumbled together, this function uses a serial queue to ensure that logs
 /// do not get jumbled up and get printed in the that they are called.
