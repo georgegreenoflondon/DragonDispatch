@@ -105,6 +105,7 @@ public class DRDispatchChain {
         return self
     }
     
+    /// Begin the chain. This call begins execution of the first block in the queue.
     public func begin() {
         // Check if the chain has already been started
         if hasStarted == false {
