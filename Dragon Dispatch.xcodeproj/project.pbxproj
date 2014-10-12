@@ -27,6 +27,7 @@
 		E7B46ADA19D823B8000772DD /* DRDispatchQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B46AD919D823B8000772DD /* DRDispatchQueueTests.swift */; };
 		E7CE405819D7134600269B09 /* DRDispatchGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CE405719D7134600269B09 /* DRDispatchGroup.swift */; };
 		E7CE405F19D72AAF00269B09 /* DRSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CE405E19D72AAF00269B09 /* DRSet.swift */; };
+		E7F4352119EABD0500C39E45 /* DRDispatchChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F4351E19EABCEB00C39E45 /* DRDispatchChainTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		E7B46AD919D823B8000772DD /* DRDispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchQueueTests.swift; sourceTree = "<group>"; };
 		E7CE405719D7134600269B09 /* DRDispatchGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchGroup.swift; sourceTree = "<group>"; };
 		E7CE405E19D72AAF00269B09 /* DRSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRSet.swift; sourceTree = "<group>"; };
+		E7F4351E19EABCEB00C39E45 /* DRDispatchChainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDispatchChainTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				E7B46AD919D823B8000772DD /* DRDispatchQueueTests.swift */,
 				E7759A6319DC4FCD006E350A /* DRDispatchGroupTests.swift */,
 				E768B54D19E1C07900B625CD /* DRDispatchSemaphoreTests.swift */,
+				E7F4351E19EABCEB00C39E45 /* DRDispatchChainTests.swift */,
 				E7B46ACA19D82188000772DD /* Supporting Files */,
 			);
 			path = DragonDispatchTests;
@@ -266,6 +269,7 @@
 				E7B46AD419D82235000772DD /* DragonDispatch.swift in Sources */,
 				E7759A6419DC4FCD006E350A /* DRDispatchGroupTests.swift in Sources */,
 				E735819319E9BF850029BB41 /* DRDispatchChain.swift in Sources */,
+				E7F4352119EABD0500C39E45 /* DRDispatchChainTests.swift in Sources */,
 				E7B46AD519D82236000772DD /* DRSet.swift in Sources */,
 				E7B46AD319D82232000772DD /* DragonDispatchQueue.swift in Sources */,
 			);
